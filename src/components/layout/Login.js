@@ -8,7 +8,9 @@ const Login = () => {
   const hundleSubmit = (e)=>{e.preventDefault()
 // guardar inputs en arreglo
  setArregloLogin([...arregloLogin, input])
-
+// borrar contenido del input
+e.target.reset();
+setImput("");
 };
   
   return (

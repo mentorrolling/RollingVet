@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Form } from 'react-bootstrap';
 
-const AdminClientesCreate = () => {
+const ClientesEdit = () => {
     return (
         <div>
             <Container className="py-5">
-        <h1>Administrar Clientes</h1>
+        <h1 className="text-danger text-center ">Administrar Clientes</h1>
         <hr />
         {/* Form Product */}
         <Form className="my-5">
@@ -14,29 +14,29 @@ const AdminClientesCreate = () => {
             <Form.Control type="text" placeholder="Escriba su Nombre" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Apellido</Form.Label>
+            <Form.Label className="fw-bold">Apellido</Form.Label>
             <Form.Control type="text" placeholder="Escriba su Apellido" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Correo Electronico</Form.Label>
+            <Form.Label className="fw-bold">Correo Electronico</Form.Label>
             <Form.Control type="email" placeholder="Ejemplo@correo.com" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Numero De telefono</Form.Label>
+            <Form.Label className="fw-bold">Numero De telefono</Form.Label>
             <Form.Control type="number" placeholder="+549XXXXXXXXXX" />
           </Form.Group>
           <hr />
           <h4>Informacion de la Mascotta</h4>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Nombre de la Mascota</Form.Label>
+            <Form.Label className="fw-bold">Nombre de la Mascota</Form.Label>
             <Form.Control type="text" placeholder="Escriba el nombre de su mascota" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Especie</Form.Label>
+            <Form.Label className="fw-bold">Especie</Form.Label>
             <Form.Control type="text" placeholder="Indique la especie de su mascota" />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Raza</Form.Label>
+            <Form.Label className="fw-bold">Raza</Form.Label>
             <Form.Control type="text" placeholder="Indique la raza de su mascota" />
           </Form.Group>
           <div className="text-end">
@@ -48,4 +48,4 @@ const AdminClientesCreate = () => {
     );
 };
 
-export default AdminClientesCreate;
+export default ClientesEdit;

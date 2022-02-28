@@ -1,9 +1,11 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const ListaClientes = () => {
+const Clientes = () => {
     return (
         <tr>
+      <td>1</td>
       <td>Nombre</td>
       <td>Apellido</td>
       <td>Correo Electronico</td>
@@ -13,12 +15,12 @@ const ListaClientes = () => {
       <td>Raza</td>
       <td className="w-25">
         <div className="d-flex justify-content-center">
-          <Link className="btn btn-success mx-1" to= "/admin/clientes/create">Editar</Link>
-          <Link className="btn btn-danger mx-1">Eliminar</Link>
+          <Link className="btn btn-success mx-1" to= "/Clientes/Create">Editar</Link>
+          <Button className="btn btn-danger mx-1">Eliminar</Button>
         </div>
       </td>
     </tr>
     );
 };
 
-export default ListaClientes;
+export default Clientes;

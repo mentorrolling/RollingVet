@@ -6,18 +6,18 @@ import Footer from "./components/layout/Footer";
 import ContactUs from "./components/views/ContactUs/ContactUs";
 import Login from "./components/layout/Login";
 import Error404 from "./components/views/Error404/Error404";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginaPlanes from "./components/views/PaginaPlanes/PaginaPlanes";
-import AdminClientesCreate from "./components/views/AdminClientes/AdminClientesCreate";
-import AdminTurnos from "./components/views/AdminTurnos/AdminTurnos";
-import AdminTurnosCreate from "./components/views/AdminTurnos/AdminTurnosCreate";
-import ListaTurnos from "./components/views/AdminTurnos/ListaTurnos/ListaTurnos";
-import ListaClientes from "./components/views/AdminClientes/ListaClientes/ListaClientes";
-import AdminClientes from "./components/views/AdminClientes/AdminClientes";
+// import AdminTurnos from "./components/views/AdminTurnos/AdminTurnos";
+// import AdminTurnosCreate from "./components/views/AdminTurnos/AdminTurnosCreate";
+// import ListaTurnos from "./components/views/AdminTurnos/ListaTurnos/ListaTurnos";
 import PlanPrimerosPasos from "./components/views/PaginaPlanes/PlanPrimerosPasos";
-
 import PlanAdultos from "./components/views/PaginaPlanes/PlanAdultos";
 import PlanMadurando from "./components/views/PaginaPlanes/PlanMadurando";
+import ClientesCreate from "./components/views/ClientesCreate/ClientesCreate";
+import ClientesEdit from "./components/views/ClientesEdit/ClientesEdit";
+// import Clientes from "./components/views/ClientesTabla/Clientes/Clientes";
+import ClientesTabla from "./components/views/ClientesTabla/ClientesTabla";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -30,23 +30,25 @@ function App() {
           <Route exact path="/contactos" element={<ContactUs />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/planes" element={<PaginaPlanes />} />
-          <Route exact path="/planes/primerospasos" element={<PlanPrimerosPasos />} />
-          <Route exact path="/planes/madurando" element={<PlanMadurando/>} />
-          <Route exact path="/planes/adultos" element={<PlanAdultos />} />
-          <Route exact path="/lista/clientes" element={<ListaClientes />} />
-          <Route exact path="/admin/clientes" element={<AdminClientes />} />
           <Route
             exact
-            path="/admin/clientes/create"
-            element={<AdminClientesCreate />}
+            path="/planes/primerospasos"
+            element={<PlanPrimerosPasos />}
           />
-          <Route exact path="/lista/turnos" element={<ListaTurnos />} />
+          <Route exact path="/Clientes/Tabla" element={<ClientesTabla />} />
+          <Route exact path="/Clientes/Create" element={<ClientesCreate />} />
+          <Route exact path="/Clientes/Edit" element={<ClientesEdit />} />
+          <Route exact path="/" />
+
+          <Route exact path="/planes/madurando" element={<PlanMadurando />} />
+          <Route exact path="/planes/adultos" element={<PlanAdultos />} />
+          {/* <Route exact path="/lista/turnos" element={<ListaTurnos />} />
           <Route exact path="/admin/turnos" element={<AdminTurnos />} />
           <Route
             exact
             path="/admin/turnos/create"
-            element={<AdminTurnosCreate />}
-          />
+            element={<AdminTurnosCreate />} */}
+          
           <Route exact path="*" element={<Error404 />} />
         </Routes>
       </main>
@@ -56,3 +58,5 @@ function App() {
 }
 
 export default App;
+
+// 00:50:00

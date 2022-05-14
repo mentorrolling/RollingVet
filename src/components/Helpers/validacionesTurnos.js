@@ -41,7 +41,8 @@ export const validateProf = (field) => {
   if (
     regExpNombre.test(field) &&
     field.trim() !== "" &&
-    (field === "Dra Liza Morgan" || field === "Dr Adrian Munir")
+    (field === "Dra Liza Morgan" ||
+     field === "Dr Adrian Munir")
   ) {
     return true;
   } else {

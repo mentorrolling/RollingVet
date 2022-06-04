@@ -16,7 +16,46 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const [TurnoDetalle, setTurnoDetalle] = useState("");
   const [TurnoFecha, setTurnoFecha] = useState("");
   const [TurnoHora, setTurnoHora] = useState("");
+  const [horasDr1, setHorasDr1] = useState([]);
+  const [horasDr2, setHorasDr2] = useState([]);
   const navigate = useNavigate();
+
+  const Dr1 = "Dra Liza Morgan";
+  const Dr2 = "Dr Adrian Munir";
+
+  const TurnoPetNameRef = useRef("");
+  const TurnoDoctorRef = useRef("");
+  const TurnoDetalleRef = useRef("");
+  const TurnoFechaRef = useRef("");
+  const TurnoHoraRef = useRef("");
+  const Dr1Ref = useRef("");
+  const Dr2Ref = useRef("");
+
+  const timePicker = [
+    
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+  ];
+
+
+
+  const Time = ({ hora }) => {
+    return <option value={String(hora)}>{hora}</option>;
+  };
+
+
+
+
+
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -18,7 +18,13 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const [TurnoHora, setTurnoHora] = useState("");
   const [horasDr1, setHorasDr1] = useState([]);
   const [horasDr2, setHorasDr2] = useState([]);
+  const [turnos, setTurnos] = useState([]);
+  const [horas, setHoras] = useState([]);
+  const [time, setTime] = useState("");
+
+
   const navigate = useNavigate();
+
 
   const Dr1 = "Dra Liza Morgan";
   const Dr2 = "Dr Adrian Munir";
@@ -49,12 +55,53 @@ const TurnosCreate = ({ URL2, getAp }) => {
     return <option value={String(hora)}>{hora}</option>;
   };
 
+  const handleDateChange = (e) => {
+    const busquedaFechas = turnos.filter(
+      (fechas) => fechas.TurnoFecha === e.target.value
+    );
 
 
+    const buscarVeterinario = busquedaFechas.filter((doc) => doc.vet === Dr1);
+    const buscarVeterinario1 = buscarVeterinario.map((horas) => horas.TurnoHora);
+    setHorasDr1(buscarVeterinario1);
+    const buscarVeterinarioI = busquedaFechas.filter(
+      (doc) => doc.vet === Dr2
+    );
+    const buscarVeterinario2 = buscarVeterinarioI.map((horas) => horas.TurnoHora);
+    setHorasDr2(buscarVeterinario2);
+
+    if (buscarVeterinario.length >= 8) {
+      Dr1Ref.current.disabled = true;
+    } else {
+      Dr1Ref.current.disabled = false;
+    }
+    if (buscarVeterinarioI.length >= 8) {
+      Dr2Ref.current.disabled = true;
+    } else {
+      Dr2Ref.current.disabled = false;
+    }
+
+    TurnoDoctorRef.current.disabled = false;
+  };
 
 
+  const handleVetChange = (e) => {
+    if (e.target.value === Dr1) {
+      const vet1filtrado = timePicker.filter(
+        (hora) => !horasDr1.includes(hora)
+      );
+      console.log("filtrado", vet1filtrado);
+      setHoras(vet1filtrado);
+    } else if (e.target.value === Dr2) {
+      const vet2filtrado = timePicker.filter(
+        (hora) => !horasDr2.includes(hora)
+      );
+      console.log(vet2filtrado);
+      setHoras(vet2filtrado);
+    }
 
-
+    TurnoHoraRef.current.disabled = false;
+  };
 
 
   const handleSubmit = (e) => {
@@ -139,17 +186,20 @@ const TurnosCreate = ({ URL2, getAp }) => {
                 <Form.Control
                   type="text"
                   placeholder="Nombre de la Mascota"
+                  ref={TurnoPetNameRef}
                   onChange={({ target }) => setTurnoPetName(target.value)}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Label className="fw-bolder">Profesionales*</Form.Label>
                 <Form.Select
+                  ref={TurnoDoctorRef}
                   onChange={({ target }) => setTurnoDoctor(target.value)}
+                  onBlur={handleVetChange}
                 >
                   <option value="">Seleccione al profesional</option>
-                  <option value="Dra Liza Morgan">Dra Liza Morgan</option>
-                  <option value="Dr Adrian Munir">Dr Adrian Munir</option>
+                  <option ref={Dr1Ref} value="Dra Liza Morgan">Dra Liza Morgan</option>
+                  <option ref={Dr2Ref} value="Dr Adrian Munir">Dr Adrian Munir</option>
                 </Form.Select>
               </Form.Group>
               <Form.Group
@@ -161,6 +211,7 @@ const TurnosCreate = ({ URL2, getAp }) => {
                   as="textarea"
                   rows={3}
                   onChange={({ target }) => setTurnoDetalle(target.value)}
+                  ref={TurnoDetalleRef}
                 />
               </Form.Group>
               <Form.Group
@@ -171,12 +222,15 @@ const TurnosCreate = ({ URL2, getAp }) => {
                 <Form.Control
                   type="date"
                   placeholder="Escriba la fecha"
+                  onBlur={handleDateChange}
                   onChange={({ target }) => setTurnoFecha(target.value)}
+                  ref={TurnoFechaRef}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Label className="fw-bolder">Horario</Form.Label>
                 <Form.Select
+                  ref={TurnoHoraRef}
                   onChange={({ target }) => setTurnoHora(target.value)}
                 >
                   <option value="">Elija el horario</option>

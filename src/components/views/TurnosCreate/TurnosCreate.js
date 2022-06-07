@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -22,9 +22,7 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const [horas, setHoras] = useState([]);
   const [time, setTime] = useState("");
 
-
   const navigate = useNavigate();
-
 
   const Dr1 = "Dra Liza Morgan";
   const Dr2 = "Dr Adrian Munir";
@@ -37,19 +35,37 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const Dr1Ref = useRef("");
   const Dr2Ref = useRef("");
 
+
+  useEffect(() => {
+    TurnoHoraRef.current = true;
+    TurnoDoctorRef.current = true;
+    TurnoPetNameRef.current = true;
+    TurnoDetalleRef.current = true;
+    TurnoFechaRef.current = true;
+  }, []);
+
+  useEffect(async () => {
+    try {
+      const res = await fetch(URL2);
+      const resultado = await res.json();
+      setTurnos(resultado);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   const timePicker = [
     
-    "09:00",
     "10:00",
     "11:00",
     "12:00",
+    "13.00",
+    "16:00",
     "17:00",
     "18:00",
     "19:00",
     "20:00",
   ];
-
-
 
   const Time = ({ hora }) => {
     return <option value={String(hora)}>{hora}</option>;
@@ -60,14 +76,15 @@ const TurnosCreate = ({ URL2, getAp }) => {
       (fechas) => fechas.TurnoFecha === e.target.value
     );
 
-
     const buscarVeterinario = busquedaFechas.filter((doc) => doc.vet === Dr1);
-    const buscarVeterinario1 = buscarVeterinario.map((horas) => horas.TurnoHora);
-    setHorasDr1(buscarVeterinario1);
-    const buscarVeterinarioI = busquedaFechas.filter(
-      (doc) => doc.vet === Dr2
+    const buscarVeterinario1 = buscarVeterinario.map(
+      (horas) => horas.TurnoHora
     );
-    const buscarVeterinario2 = buscarVeterinarioI.map((horas) => horas.TurnoHora);
+    setHorasDr1(buscarVeterinario1);
+    const buscarVeterinarioI = busquedaFechas.filter((doc) => doc.vet === Dr2);
+    const buscarVeterinario2 = buscarVeterinarioI.map(
+      (horas) => horas.TurnoHora
+    );
     setHorasDr2(buscarVeterinario2);
 
     if (buscarVeterinario.length >= 8) {
@@ -83,7 +100,6 @@ const TurnosCreate = ({ URL2, getAp }) => {
 
     TurnoDoctorRef.current.disabled = false;
   };
-
 
   const handleVetChange = (e) => {
     if (e.target.value === Dr1) {
@@ -102,7 +118,6 @@ const TurnosCreate = ({ URL2, getAp }) => {
 
     TurnoHoraRef.current.disabled = false;
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -198,8 +213,12 @@ const TurnosCreate = ({ URL2, getAp }) => {
                   onBlur={handleVetChange}
                 >
                   <option value="">Seleccione al profesional</option>
-                  <option ref={Dr1Ref} value="Dra Liza Morgan">Dra Liza Morgan</option>
-                  <option ref={Dr2Ref} value="Dr Adrian Munir">Dr Adrian Munir</option>
+                  <option ref={Dr1Ref} value="Dra Liza Morgan">
+                    Dra Liza Morgan
+                  </option>
+                  <option ref={Dr2Ref} value="Dr Adrian Munir">
+                    Dr Adrian Munir
+                  </option>
                 </Form.Select>
               </Form.Group>
               <Form.Group
@@ -234,15 +253,9 @@ const TurnosCreate = ({ URL2, getAp }) => {
                   onChange={({ target }) => setTurnoHora(target.value)}
                 >
                   <option value="">Elija el horario</option>
-                  <option value="09:00">09:00</option>
-                  <option value="10:00">10:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="12:00">12:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
-                  <option value="18:00">18:00</option>
-                  <option value="19:00">19:00</option>
-                  <option value="20:00">20:00</option>
+                  {horas.map((hora, index) => {
+                    return <Time hora={hora} key={index} />;
+                  })}
                 </Form.Select>
               </Form.Group>
               <button className="btn btn-success">Guardar</button>

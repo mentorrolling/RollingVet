@@ -11,6 +11,28 @@ import {
 } from "../../Helpers/validacionesTurnos";
 
 const TurnosEdit = ({ URL2, getAp }) => {
+  const [turno, setTurno] = useState({});
+  const [turnos, setTurnos] = useState([]);
+  const [horas, setHoras] = useState([]);
+
+  const actHora = [];
+
+  const timePicker = [
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+  ];
+
+  const Dr1 = "Dra Liza Morgan";
+  const Dr2 = "Dr Adrian Munir";
+
   const [TurnoEd, setTurnoEd] = useState({});
   const { id } = useParams();
   const TurnoPetNameRef = useRef("");
@@ -18,6 +40,12 @@ const TurnosEdit = ({ URL2, getAp }) => {
   const TurnoDetalleRef = useRef("");
   const TurnoFechaRef = useRef("");
   const TurnoHoraRef = useRef("");
+  const Dr1Ref = useRef("");
+  const Dr2Ref = useRef("");
+
+  const Time = ({ hora }) => {
+    return <option value={String(hora)}>{hora}</option>;
+  };
 
   const navigate = useNavigate();
 
@@ -30,6 +58,78 @@ const TurnosEdit = ({ URL2, getAp }) => {
       console.log(error);
     }
   }, []);
+
+  const searchAtDb = async () => {
+    try {
+      const res = await fetch(URL2);
+      const resultado = await res.json();
+      setTurnos(resultado);
+      console.log(turnos);
+      const busquedaFechas = turnos.filter(
+        (fechas) => fechas.TurnoFecha === TurnoFechaRef.current.value
+      );
+      console.log(TurnoFechaRef.current.value);
+      console.log(busquedaFechas);
+
+      const buscarveterio = busquedaFechas.map((turnos) => turnos.vet);
+      console.log(buscarveterio);
+
+      const filtradovet1 = buscarveterio.filter((buscada) => {
+        return buscada === Dr1;
+      });
+
+      const filtradovet2 = buscarveterio.filter((buscado) => {
+        return buscado === Dr2;
+      });
+
+      if (filtradovet1.length >= 8) {
+        Dr1Ref.current.disabled = true;
+      } else if (filtradovet2.length >= 8) {
+        Dr2Ref.current.disabled = true;
+      }
+
+      const buscarHoras = busquedaFechas.map((turno) => turno.TurnoHora);
+      const filtradoHoras = timePicker.filter(
+        (hora) => !buscarHoras.includes(hora)
+      );
+      console.log(filtradoHoras);
+
+      setHoras(filtradoHoras);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDateChange = (e) => {
+    console.log(turnos);
+
+    const busquedaFechas = turnos.filter(
+      (fechas) => fechas.date === e.target.value
+    );
+
+    // Buscamos por veterinario en esa fecha
+    const buscarveterio = busquedaFechas.map((turno) => turno.vet);
+
+    const filtradovet1 = buscarveterio.filter((buscada) => {
+      return buscada === Dr1;
+    });
+
+    const filtradovet2 = buscarveterio.filter((buscado) => {
+      return buscado === Dr2;
+    });
+
+    if (filtradovet1.length >= 8) {
+      Dr1Ref.current.disabled = true;
+    } else if (filtradovet2.length >= 8) {
+      Dr2Ref.current.disabled = true;
+    }
+
+    const buscarHoras = busquedaFechas.map((turno) => turno.TurnoHora);
+    const filtradoHoras = timePicker.filter(
+      (hora) => !buscarHoras.includes(hora)
+    );
+    setHoras(filtradoHoras);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -123,8 +223,12 @@ const TurnosEdit = ({ URL2, getAp }) => {
                   ref={TurnoDoctorRef}
                 >
                   <option value="">Seleccione al profesional</option>
-                  <option value="Dra Liza Morgan">Dra Liza Morgan</option>
-                  <option value="Dr Adrian Munir">Dr Adrian Munir</option>
+                  <option ref={Dr1Ref} value="Dra Liza Morgan">
+                    Dra Liza Morgan
+                  </option>
+                  <option ref={Dr2Ref} value="Dr Adrian Munir">
+                    Dr Adrian Munir
+                  </option>
                 </Form.Select>
               </Form.Group>
               <Form.Group
@@ -147,6 +251,7 @@ const TurnosEdit = ({ URL2, getAp }) => {
                 <Form.Control
                   type="date"
                   placeholder="Escriba la fecha"
+                  onChange={handleDateChange}
                   defaultValue={TurnoEd.TurnoFecha}
                   ref={TurnoFechaRef}
                 />
@@ -161,15 +266,9 @@ const TurnosEdit = ({ URL2, getAp }) => {
                   ref={TurnoHoraRef}
                 >
                   <option value="">Elija el horario</option>
-                  <option value="09:00">09:00</option>
-                  <option value="10:00">10:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="12:00">12:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
-                  <option value="18:00">18:00</option>
-                  <option value="19:00">19:00</option>
-                  <option value="20:00">20:00</option>
+                  {horas.map((hora, index) => {
+                    return <Time hora={hora} key={index} />;
+                  })}
                 </Form.Select>
               </Form.Group>
               <button className="btn btn-success">Guardar</button>

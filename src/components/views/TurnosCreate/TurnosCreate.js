@@ -9,8 +9,11 @@ import {
   validateProf,
   validatetextarea,
 } from "../../Helpers/validacionesTurnos";
+import Time from "./Time";
 
 const TurnosCreate = ({ URL2, getAp }) => {
+
+
   const [TurnoPetName, setTurnoPetName] = useState("");
   const [TurnoDoctor, setTurnoDoctor] = useState("");
   const [TurnoDetalle, setTurnoDetalle] = useState("");
@@ -20,7 +23,7 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const [horasDr2, setHorasDr2] = useState([]);
   const [turnos, setTurnos] = useState([]);
   const [horas, setHoras] = useState([]);
-  const [time, setTime] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -35,13 +38,12 @@ const TurnosCreate = ({ URL2, getAp }) => {
   const Dr1Ref = useRef("");
   const Dr2Ref = useRef("");
 
-
   useEffect(() => {
-    TurnoHoraRef.current = true;
-    TurnoDoctorRef.current = true;
-    TurnoPetNameRef.current = true;
-    TurnoDetalleRef.current = true;
-    TurnoFechaRef.current = true;
+    TurnoHoraRef.current.disabled = true;
+    TurnoDoctorRef.current.disabled = true;
+    TurnoPetNameRef.current.disabled = true;
+    TurnoDetalleRef.current.disabled = true;
+    TurnoFechaRef.current.disabled = true;
   }, []);
 
   useEffect(async () => {
@@ -55,11 +57,10 @@ const TurnosCreate = ({ URL2, getAp }) => {
   }, []);
 
   const timePicker = [
-    
     "10:00",
     "11:00",
     "12:00",
-    "13.00",
+    "13:00",
     "16:00",
     "17:00",
     "18:00",
@@ -67,9 +68,6 @@ const TurnosCreate = ({ URL2, getAp }) => {
     "20:00",
   ];
 
-  const Time = ({ hora }) => {
-    return <option value={String(hora)}>{hora}</option>;
-  };
 
   const handleDateChange = (e) => {
     const busquedaFechas = turnos.filter(
